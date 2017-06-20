@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by young on 6/20/17.
@@ -23,12 +24,16 @@ public class Quiz {
     JLabel numberCorrect;
     JLabel isWrong;
     int numCorrect;
+    int totalNum;
     // state names
     String[] stateNames;
     int stateNum;
+    ArrayList<Integer> usedNumbers = new ArrayList<Integer>();
+    ArrayList<String> incorrectStates = new ArrayList<String>();
 
     public Quiz() throws IOException {
         this.numCorrect = 0;
+        this.totalNum = 0;
         // north panel
         this.north = new JPanel();
         StatesArray a = new StatesArray();
@@ -42,17 +47,21 @@ public class Quiz {
         this.center.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("State number: " + stateNum);
-                System.out.println("State name: " + stateNames[stateNum]);
                 if (center.getText().equals(stateNames[stateNum])) {
                     numCorrect++;
                     isWrong.setText("Correct!");
                 } else {
                     isWrong.setText("Incorrect!");
+                    incorrectStates.add(stateNames[stateNum]);
                 }
                 numberCorrect.setText(numCorrect + "/50 correct!");
                 center.setText("");
                 setRandomState();
+                totalNum++;
+                if (totalNum == 49) {
+                    frame.setVisible(false);
+                    Results a = new Results(numCorrect, incorrectStates);
+                }
             }
         });
         // south panel
@@ -82,13 +91,17 @@ public class Quiz {
 
     private void setRandomState() {
         Random randomizer = new Random();
-        ArrayList<Integer> usedNumbers = new ArrayList<Integer>();
         this.stateNum = randomizer.nextInt(50);
-        while (usedNumbers.contains(this.stateNum)) {
-            this.stateNum = randomizer.nextInt();
+        boolean keepGoing = true;
+        while (keepGoing) {
+            if (usedNumbers.contains(this.stateNum)) {
+                this.stateNum = randomizer.nextInt(50);
+            } else {
+                usedNumbers.add(this.stateNum);
+                this.quizState.setIcon(this.states.get(this.stateNum));
+                keepGoing = false;
+            }
         }
-        usedNumbers.add(this.stateNum);
-        this.quizState.setIcon(this.states.get(this.stateNum));
     }
 
 }

@@ -78,7 +78,7 @@ public class StatesArray {
         this.names[42] = "Texas";
         this.names[43] = "Utah";
         this.names[44] = "Vermont";
-        this.names[45] = "Virginia;";
+        this.names[45] = "Virginia";
         this.names[46] = "Washington";
         this.names[47] = "West Virginia";
         this.names[48] = "Wisconsin";
