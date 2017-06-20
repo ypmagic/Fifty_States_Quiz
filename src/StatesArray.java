@@ -18,6 +18,7 @@ public class StatesArray {
         this.states = new ArrayList<ImageIcon>();
         this.names = new String[50];
         receiveStates();
+        fillStateNames();
     }
 
     /*
@@ -25,8 +26,8 @@ public class StatesArray {
      */
     private void receiveStates() throws IOException {
         for (int i = 0; i < 50; i++) {
-            BufferedImage a = ImageIO.read(new File("" + i + ".png"));
-            Image img = a.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+            BufferedImage a = ImageIO.read(new File("" + i + ".jpg"));
+            Image img = a.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
             this.states.add(new ImageIcon(img));
         }
     }

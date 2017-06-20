@@ -35,11 +35,15 @@ public class Quiz {
         this.states = a.getStates();
         this.stateNames = a.getNames();
         this.quizState = new JLabel();
+        setRandomState();
+        this.north.add(this.quizState);
         // center
         this.center = new JTextField();
         this.center.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("State number: " + stateNum);
+                System.out.println("State name: " + stateNames[stateNum]);
                 if (center.getText().equals(stateNames[stateNum])) {
                     numCorrect++;
                     isWrong.setText("Correct!");
@@ -47,16 +51,27 @@ public class Quiz {
                     isWrong.setText("Incorrect!");
                 }
                 numberCorrect.setText(numCorrect + "/50 correct!");
+                center.setText("");
                 setRandomState();
             }
         });
         // south panel
         this.south = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.weightx = 1;
+        c.insets = new Insets(0, 0, 5, 0);
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.fill = GridBagConstraints.BOTH;
         this.numberCorrect = new JLabel("Your progress here");
+        this.numberCorrect.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         this.isWrong = new JLabel("Right or wrong indicator here");
+        this.isWrong.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+        this.south.add(this.numberCorrect, c);
+        this.south.add(this.isWrong, c);
         // frame
         this.frame = new JFrame("Fifty States Quiz");
         this.frame.setLayout(new BorderLayout());
+        this.frame.setSize(300,500);
         this.frame.add(this.north, BorderLayout.NORTH);
         this.frame.add(this.center, BorderLayout.CENTER);
         this.frame.add(this.south, BorderLayout.SOUTH);
@@ -68,7 +83,7 @@ public class Quiz {
     private void setRandomState() {
         Random randomizer = new Random();
         ArrayList<Integer> usedNumbers = new ArrayList<Integer>();
-        this.stateNum = randomizer.nextInt();
+        this.stateNum = randomizer.nextInt(50);
         while (usedNumbers.contains(this.stateNum)) {
             this.stateNum = randomizer.nextInt();
         }
