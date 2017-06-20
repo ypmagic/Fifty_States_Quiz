@@ -57,11 +57,6 @@ public class Quiz {
                 numberCorrect.setText(numCorrect + "/50 correct!");
                 center.setText("");
                 setRandomState();
-                totalNum++;
-                if (totalNum == 49) {
-                    frame.setVisible(false);
-                    Results a = new Results(numCorrect, incorrectStates);
-                }
             }
         });
         // south panel
@@ -86,21 +81,28 @@ public class Quiz {
         this.frame.add(this.south, BorderLayout.SOUTH);
         this.frame.pack();
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.frame.setResizable(false);
         this.frame.setVisible(true);
     }
 
     private void setRandomState() {
+        this.totalNum++;
         Random randomizer = new Random();
-        this.stateNum = randomizer.nextInt(50);
-        boolean keepGoing = true;
-        while (keepGoing) {
-            if (usedNumbers.contains(this.stateNum)) {
-                this.stateNum = randomizer.nextInt(50);
-            } else {
-                usedNumbers.add(this.stateNum);
-                this.quizState.setIcon(this.states.get(this.stateNum));
-                keepGoing = false;
+        if (totalNum < 50) {
+            this.stateNum = randomizer.nextInt(50);
+            boolean keepGoing = true;
+            while (keepGoing) {
+                if (usedNumbers.contains(this.stateNum)) {
+                    this.stateNum = randomizer.nextInt(50);
+                } else {
+                    usedNumbers.add(this.stateNum);
+                    this.quizState.setIcon(this.states.get(this.stateNum));
+                    keepGoing = false;
+                }
             }
+        } else if (totalNum == 50) {
+            this.frame.setVisible(false);
+            Results a = new Results(this.numCorrect, this.incorrectStates);
         }
     }
 

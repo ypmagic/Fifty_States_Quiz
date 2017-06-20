@@ -27,7 +27,7 @@ public class StatesArray {
     private void receiveStates() throws IOException {
         for (int i = 0; i < 50; i++) {
             BufferedImage a = ImageIO.read(new File("" + i + ".jpg"));
-            Image img = a.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            Image img = a.getScaledInstance(736, 568, Image.SCALE_SMOOTH);
             this.states.add(new ImageIcon(img));
         }
     }
