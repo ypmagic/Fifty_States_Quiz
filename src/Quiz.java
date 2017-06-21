@@ -88,7 +88,7 @@ public class Quiz {
     private void setRandomState() {
         this.totalNum++;
         Random randomizer = new Random();
-        if (totalNum < 50) {
+        if (totalNum <= 50) {
             this.stateNum = randomizer.nextInt(50);
             boolean keepGoing = true;
             while (keepGoing) {
@@ -100,10 +100,9 @@ public class Quiz {
                     keepGoing = false;
                 }
             }
-        } else if (totalNum == 50) {
+        } else if (totalNum == 51) {
             this.frame.setVisible(false);
             Results a = new Results(this.numCorrect, this.incorrectStates);
         }
     }
-
 }
